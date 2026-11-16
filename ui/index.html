@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FolderLock</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="36" height="36">
+          <rect x="2" y="2" width="44" height="44" rx="12" fill="#1c6e62"/>
+          <path d="M16 22 V18.5 a8 8 0 0 1 16 0 V22" fill="none" stroke="#f4fffb" stroke-width="3.2" stroke-linecap="round"/>
+          <rect x="13" y="21" width="22" height="16" rx="4" fill="#f4fffb"/>
+          <circle cx="24" cy="28" r="2" fill="#1c6e62"/>
+          <rect x="23" y="28" width="2" height="5" rx="1" fill="#1c6e62"/>
+        </svg>
+      </span>
+      <div>
+        <h1>FolderLock</h1>
+        <p>给文件夹加一把密码</p>
+      </div>
+    </header>
+
+    <section id="view-home">
+      <p class="lead">加密后，原位置会留下一个锁定入口。双击它，输入密码，文件夹才会回来。</p>
+      <div class="actions">
+        <button type="button" class="primary" id="go-lock">加密文件夹</button>
+        <button type="button" class="secondary" id="go-unlock">解锁保险箱</button>
+      </div>
+      <section class="panel">
+        <div class="panel-row">
+          <div>
+            <h2 id="shell-title">文件管理器</h2>
+            <p id="shell-text">正在检查注册状态…</p>
+          </div>
+          <button type="button" class="secondary compact" id="shell-toggle">注册</button>
+        </div>
+        <p class="hint" id="shell-hint"></p>
+      </section>
+      <p class="crypto">AES-256-GCM 加密内容和文件名 · Argon2id 派生密码 · 独立恢复密钥</p>
+    </section>
+
+    <section id="view-lock" hidden>
+      <button type="button" class="back" id="lock-back">返回</button>
+      <h2>加密文件夹</h2>
+      <form id="lock-form">
+        <label for="lock-path">文件夹</label>
+        <div class="path-row">
+          <input id="lock-path" type="text" readonly placeholder="还没有选择文件夹" />
+          <button type="button" class="secondary compact" id="browse-folder">浏览</button>
+        </div>
+        <label for="lock-password">密码</label>
+        <input id="lock-password" type="password" autocomplete="new-password" spellcheck="false" minlength="8" required />
+        <label for="lock-confirm">再输入一次</label>
+        <input id="lock-confirm" type="password" autocomplete="new-password" spellcheck="false" minlength="8" required />
+        <p class="hint">至少 8 个字符。加密完成后原文件夹会被清除，请先确认没有程序正在使用里面的文件。</p>
+        <button type="submit" class="primary" id="lock-submit">开始加密</button>
+      </form>
+    </section>
+
+    <section id="view-unlock" hidden>
+      <button type="button" class="back" id="unlock-back">返回</button>
+      <h2>解锁保险箱</h2>
+      <form id="unlock-form">
+        <label for="unlock-path">锁定入口</label>
+        <div class="path-row">
+          <input id="unlock-path" type="text" readonly placeholder="选择 .flock 文件" />
+          <button type="button" class="secondary compact" id="browse-vault">浏览</button>
+        </div>
+        <p class="hint" id="vault-meta"></p>
+        <div class="segmented" role="tablist">
+          <button type="button" class="seg active" id="mode-password" role="tab" aria-selected="true">密码</button>
+          <button type="button" class="seg" id="mode-recovery" role="tab" aria-selected="false">恢复密钥</button>
+        </div>
+        <label for="unlock-secret" id="secret-label">密码</label>
+        <input id="unlock-secret" type="password" autocomplete="current-password" spellcheck="false" required />
+        <button type="submit" class="primary" id="unlock-submit">解锁</button>
+      </form>
+    </section>
+
+    <section id="view-recovery" hidden>
+      <h2>加密完成</h2>
+      <p id="recovery-lead" class="lead"></p>
+      <label for="recovery-key">恢复密钥</label>
+      <textarea id="recovery-key" readonly rows="4" spellcheck="false"></textarea>
+      <button type="button" class="secondary" id="copy-key">复制恢复密钥</button>
+      <label class="check">
+        <input id="saved-key" type="checkbox" />
+        <span>我已经把恢复密钥保存到密码管理器或离线的地方</span>
+      </label>
+      <button type="button" class="primary" id="recovery-done" disabled>完成</button>
+    </section>
+
+    <section id="view-done" hidden>
+      <h2 id="done-title">已解锁</h2>
+      <p id="done-lead" class="lead"></p>
+      <div class="actions">
+        <button type="button" class="primary" id="open-folder">打开文件夹</button>
+        <button type="button" class="secondary" id="done-home">返回首页</button>
+      </div>
+    </section>
+
+    <div id="progress" class="progress" hidden>
+      <div class="track"><span id="progress-fill"></span></div>
+      <p id="progress-text"></p>
+    </div>
+    <p id="banner" class="banner" hidden role="alert"></p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

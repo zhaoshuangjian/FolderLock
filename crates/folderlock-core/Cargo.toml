@@ -1,0 +1,16 @@
+[package]
+name = "folderlock-core"
+version = "0.1.0"
+edition = "2021"
+description = "Lock and unlock FolderLock vaults on Windows"
+publish = false
+
+[dependencies]
+folderlock-crypto = { path = "../folderlock-crypto" }
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+zeroize = "1"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.55"

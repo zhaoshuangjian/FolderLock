@@ -1,0 +1,30 @@
+[package]
+name = "folderlock-app"
+version = "0.1.0"
+edition = "2021"
+description = "FolderLock desktop app"
+publish = false
+
+[lib]
+name = "folderlock_app"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "folderlock"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+arboard = "3"
+folderlock-core = { path = "../crates/folderlock-core" }
+rfd = "0.15"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = [] }
+zeroize = "1"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

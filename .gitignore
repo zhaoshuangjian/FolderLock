@@ -1,0 +1,5 @@
+/target
+src-tauri/gen
+**/*.rs.bk
+.DS_Store
+Thumbs.db

@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/folderlock-crypto",
+    "crates/folderlock-core",
+    "crates/folderlock-cli",
+    "src-tauri",
+]

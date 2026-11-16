@@ -1,0 +1,16 @@
+[package]
+name = "folderlock-cli"
+version = "0.1.0"
+edition = "2021"
+description = "FolderLock command line"
+publish = false
+
+[[bin]]
+name = "folderlock-cli"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+folderlock-core = { path = "../folderlock-core" }
+rpassword = "7"
+zeroize = "1"
